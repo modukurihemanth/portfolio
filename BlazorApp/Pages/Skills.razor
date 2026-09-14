@@ -1,0 +1,59 @@
+@* Skills - circular icon badges clustered in soft glowing category halos. No proficiency claims. *@
+
+<div class="skills-categories">
+
+    @foreach (var group in AllSkills.GroupBy(s => s.Category))
+    {
+        <div class="skill-category">
+            <h5 class="skill-category-title">@group.Key</h5>
+            <div class="skill-orbit-cluster">
+                @foreach (var (skill, index) in group.Select((s, i) => (s, i)))
+                {
+                    <div class="skill-orbit-node reveal" style="animation-delay:@(index * 0.06)s">
+                        <div class="skill-orbit-circle">
+                            @if (skill.IconImage is not null)
+                            {
+                                <img src="@skill.IconImage" alt="@skill.DisplayName icon" />
+                            }
+                            else
+                            {
+                                <i class="@skill.IconClass" style="@skill.IconStyle"></i>
+                            }
+                        </div>
+                        <span class="skill-orbit-label">@skill.DisplayName</span>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+</div>
+
+@code {
+
+    private record TechSkill(string DisplayName, string Category, string? IconClass = null, string? IconStyle = null, string? IconImage = null);
+
+    private readonly List<TechSkill> AllSkills = new()
+    {
+        new("Blazor", "Frontend", IconClass: "devicon-blazor-original colored"),
+        new("JavaScript", "Frontend", IconClass: "devicon-javascript-plain colored"),
+        new("TypeScript", "Frontend", IconClass: "devicon-typescript-plain colored"),
+        new("Angular", "Frontend", IconClass: "devicon-angular-plain colored", IconStyle: "color:red"),
+        new("Bootstrap", "Frontend", IconClass: "devicon-bootstrap-plain colored"),
+
+        new("C#", "Backend", IconClass: "devicon-csharp-plain colored"),
+        new("ASP.NET Core", "Backend", IconClass: "devicon-dotnetcore-plain colored"),
+        new("RESTful API", "Backend", IconClass: "devicon-fastapi-plain colored"),
+        new("Python", "Backend", IconClass: "devicon-python-plain colored"),
+
+        new("SQL Server", "Database", IconClass: "devicon-microsoftsqlserver-plain colored"),
+        new("Oracle", "Database", IconClass: "devicon-oracle-original colored"),
+
+        new("Azure", "Cloud & Other", IconClass: "devicon-azure-plain colored"),
+        new("Power BI", "Cloud & Other", IconImage: "images/icons/powerbi.png"),
+        new("Linux", "Cloud & Other", IconClass: "devicon-linux-plain colored"),
+
+        new("GitHub Copilot", "AI Tools", IconImage: "images/icons/copilot.svg"),
+        new("Claude", "AI Tools", IconImage: "images/icons/claude.svg"),
+    };
+}

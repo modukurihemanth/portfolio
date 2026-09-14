@@ -1,0 +1,31 @@
+@* Full Stack Progress - animated bars, fills in as it scrolls into view *@
+
+<h4>Full Stack Progress</h4>
+
+<div class="progress-panel">
+    @foreach (var (item, index) in ProgressItems.Select((p, i) => (p, i)))
+    {
+        <div class="progress-row reveal" style="--target-width:@(item.Percent)%; transition-delay:@(index * 0.08)s">
+            <div class="progress-row-label">
+                <span>@item.Label</span>
+                <span class="progress-row-percent">@item.Percent%</span>
+            </div>
+            <div class="progress-track" role="progressbar" aria-label="@item.Label" aria-valuenow="@item.Percent" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+
+    private record ProgressItem(string Label, int Percent);
+
+    private readonly List<ProgressItem> ProgressItems = new()
+    {
+        new("Frontend", 80),
+        new("Backend", 85),
+        new("Database", 90),
+        new("Cloud & Others", 70),
+    };
+}

@@ -1,0 +1,44 @@
+@* Closing CTA - Contact *@
+@inject IJSRuntime JS
+
+<div class="contact-panel reveal">
+
+    <span class="contact-kicker">Get In Touch</span>
+    <h3 class="contact-heading">Let's build something great together.</h3>
+    <p class="contact-sub">Whether you're hiring, collaborating, or just want to talk tech, I'd love to hear from you.</p>
+
+    <div class="contact-actions">
+        <a href="files/Hemanth-Modukuri-Resume.pdf" download class="contact-btn contact-btn-primary">
+            <img src="images/icons/resume.svg" alt="" class="contact-btn-icon" />
+            <span>Download CV</span>
+        </a>
+        <button type="button" class="contact-btn" @onclick="CopyEmail">
+            <img src="images/icons/mail.png" alt="" class="contact-btn-icon" />
+            <span>Email Me</span>
+        </button>
+        <button type="button" class="contact-btn" @onclick="CopyPhone">
+            <img src="images/icons/phone.png" alt="" class="contact-btn-icon" />
+            <span>Call</span>
+        </button>
+        <a href="https://www.linkedin.com/in/bala-hemanth-m-1616962a0/" target="_blank" rel="noopener" class="contact-btn">
+            <img src="images/icons/linkedin.png" alt="" class="contact-btn-icon" />
+            <span>LinkedIn</span>
+        </a>
+    </div>
+
+</div>
+
+@code {
+
+    private const string EmailAddress = "modukurihemanth@zohomail.com";
+    private const string PhoneNumber = "+1 (913) 414-9243";
+
+    private Task CopyEmail() => CopyAndNotify(EmailAddress, $"Email copied - {EmailAddress}");
+
+    private Task CopyPhone() => CopyAndNotify(PhoneNumber, $"Number copied - {PhoneNumber}");
+
+    private async Task CopyAndNotify(string text, string message)
+    {
+        await JS.InvokeVoidAsync("copyAndToast", text, message);
+    }
+}

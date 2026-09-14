@@ -1,0 +1,75 @@
+@* Projects - Career Timeline. Each entry expands/collapses natively via <details>, no JS needed. *@
+
+<div class="timeline">
+
+    @foreach (var (job, index) in Experience.Select((j, i) => (j, i)))
+    {
+        <div class="timeline-item reveal" style="transition-delay:@(index * 0.08)s">
+            <div class="timeline-marker" style="@(job.MarkerBackground is not null ? $"background:{job.MarkerBackground}" : "")">
+                <img src="@job.LogoSrc" class="timeline-logo" alt="@job.Client" />
+            </div>
+            <details class="timeline-card" open="@(index == 0)">
+                <summary>
+                    <div class="timeline-summary-text">
+                        <h3>@job.Client</h3>
+                        <span class="timeline-role">@job.Role</span>
+                        <span class="timeline-period">@job.Period</span>
+                    </div>
+                    <span class="timeline-chevron" aria-hidden="true"></span>
+                </summary>
+                <ul class="timeline-bullets">
+                    @foreach (var bullet in job.Bullets)
+                    {
+                        <li>@bullet</li>
+                    }
+                </ul>
+            </details>
+        </div>
+    }
+
+</div>
+
+@code {
+
+    private record Job(string Client, string Role, string Period, string LogoSrc, string[] Bullets, string? MarkerBackground = null);
+
+    private readonly List<Job> Experience = new()
+    {
+        new(
+            Client: "Hansae Mobility",
+            Role: "Full Stack .NET Developer",
+            Period: "May 2025 - Present",
+            LogoSrc: "images/logos/hansae-mobility.png",
+            Bullets: new[]
+            {
+                "Engineered and deployed high-performance MES modules by migrating legacy C# workflows to Blazor Server and C#. This transition to modern web-based interfaces boosted operational efficiency and provided a more intuitive UX for production teams.",
+                "Developed real-time manufacturing dashboards using Razor Pages and JavaScript (ES6+), integrated with SQL Server backends. Optimized mission-critical .NET applications using asynchronous programming, resulting in reduction in production line downtime.",
+                "Managed secure deployments via TFS within an Agile environment, implementing code reviews and automated testing to maintain application uptime."
+            }
+        ),
+        new(
+            Client: "Los Angeles County",
+            Role: ".NET Programmer",
+            Period: "May 2024 - May 2025",
+            LogoSrc: "images/logos/la-county.png",
+            Bullets: new[]
+            {
+                "Architected and enhanced large-scale .NET Core and ASP.NET MVC applications using C# and Oracle, implementing Dependency Injection and API Versioning.",
+                "Designed and implemented RESTful and SOAP web services to facilitate secure data exchange between hospital systems and local government. Integrated Azure-based authentication and access control to ensure the integrity of sensitive child welfare and health data, while automating patient engagement via custom SMTP services.",
+                "Built dynamic, real-time user interfaces using Blazor and Razor, integrating Oracle Data Manager for seamless data retrieval. Developed interactive Power BI dashboards (matrix and chart visuals) to provide deep analytical insights into child welfare metrics, directly informing decision-making for Family & Children Services."
+            }
+        ),
+        new(
+            Client: "Think & Learn Pvt Ltd",
+            Role: "Software Developer",
+            Period: "Jul 2021 - Jul 2022",
+            LogoSrc: "images/logos/think-learn.png",
+            Bullets: new[]
+            {
+                "Designed and delivered enterprise-grade web applications using ASP.NET MVC, C#, and Entity Framework. Engineered high-performance modules for complex business workflows, ensuring the system remained scalable under increasing user loads.",
+                "Developed sophisticated UI components using Angular, focusing on cross-browser usability and modern design principles. These enhancements led to increase in user engagement by providing a more fluid, intuitive interface.",
+                "Developed complex SQL queries and stored procedures for inventory management, order processing, and user authentication."
+            }
+        ),
+    };
+}

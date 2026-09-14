@@ -1,0 +1,121 @@
+﻿@page "/"
+
+@* main - page *@
+@inject IJSRuntime JS
+
+<PageTitle>Home</PageTitle>
+
+<div class="main-page">
+    <nav class="navbar navbar-expand-md bg-body-tertiary px-3 mb-3 shadow-sm sticky-top">
+        <div class="container-fluid">
+            <!-- Brand Name on the Left -->
+            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#home">
+                <span class="brand-mark">H</span>
+                HEMANTH
+            </a>
+
+            <!-- Toggle Button for Screens < 768px -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" @onclick="ToggleNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Menu Options -->
+            <div class="collapse navbar-collapse justify-content-end @NavClass" id="navbarNav">
+                <ul class="navbar-nav nav-pills text-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home" @onclick="CloseNav">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#skills" @onclick="CloseNav">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#projects" @onclick="CloseNav">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact" @onclick="CloseNav">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+
+
+    <div class="scrollspy-example bg-body-tertiary p-3 rounded-2" tabindex="0">
+    
+        <div class="main-body content-sections">
+
+            <section class="hero" id="home">
+                <div class="hero-content">
+                    <span class="hero-eyebrow">Hello, I'm</span>
+                    <h1 class="hero-name">Hemanth Modukuri</h1>
+                    <p class="hero-tagline">
+                        <span class="typing-text">Full Stack .NET Developer | AI &amp; Enterprise Systems </span>
+                    </p>
+                    <p class="hero-bio">
+                        I build modern web applications using Blazor and C# with a deep focus on performance, scalability, and robust security.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#projects" class="contact-btn contact-btn-primary">View My Work</a>
+                        <a href="#contact" class="contact-btn">Get In Touch</a>
+                    </div>
+                </div>
+           @*      <a href="#skills" class="hero-scroll-cue" aria-label="Scroll to explore">
+                    <span></span>
+                </a> *@
+            </section>
+
+
+
+            <section id="skills">
+                <h4>Skills</h4>
+                <Skills />
+                <Progress />
+            </section>
+
+            <section id="projects">
+                <h4>Projects</h4>
+                <Projects />
+            </section>
+
+            <section id="contact">
+                <Contact />
+            </section>
+
+        </div>
+    </div>
+
+    <a href="#home" class="back-to-top" id="backToTop" aria-label="Back to top">
+        <span class="back-to-top-arrow"></span>
+    </a>
+</div>
+
+
+@code {
+    private bool _isNavOpen = false;
+
+    private string NavClass => _isNavOpen ? "show" : "";
+
+
+    private void ToggleNav()
+    {
+        _isNavOpen = !_isNavOpen;
+    }
+
+    private void CloseNav()
+    {
+        _isNavOpen = false;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("initScrollReveal");
+            await JS.InvokeVoidAsync("initScrollSpy");
+            await JS.InvokeVoidAsync("initBackToTop");
+        }
+    }
+}
